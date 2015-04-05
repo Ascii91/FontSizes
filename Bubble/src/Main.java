@@ -62,7 +62,7 @@ public class Main
 
 		fontWidth = width / maxWord;
 		fontHeight = 3.0f * fontWidth / 2.0f; // desired font height
-
+		words = mergeWords(words, maxWord);
 		while (true)
 		{
 			// System.out.println("Words.size"+ words.size());
@@ -167,7 +167,7 @@ public class Main
 			{
 				String word1 = words.get(i);
 				String word2 = words.get(i + 1);
-				String mergedWords = word1 + " " + word2;
+				String mergedWords = word1 + "*" + word2;
 				if (mergedWords.length() > initMax)
 				{
 
