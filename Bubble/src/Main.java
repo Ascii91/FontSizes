@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +20,17 @@ public class Main
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				System.in));
 
+		// BufferedReader readerFile = new BufferedReader(new FileReader(
+		// "file2.txt"));
+		//
+		//
+		// PrintWriter writer = new PrintWriter("output2.txt");
+		// sentence = readerFile.readLine();
+		// for(int x=1;x<1000;x++)
+		// {
+		// System.out.println("x"+x);
+		// for(int y=1;y<1000;y++){
+		//
 		try
 		{
 			width = Float.parseFloat(reader.readLine());//
@@ -46,15 +59,17 @@ public class Main
 		}
 
 		fontWidth = width / maxWord;
-		fontHeight = 3 * fontWidth / 2; // desired font height
+		fontHeight = 3.0f * fontWidth / 2.0f; // desired font height
 
 		while (true)
 		{
-
+			// System.out.println("Words.size"+ words.size());
 			words = mergeWords(words, maxWord);
-
+			// System.out.println("Words.size after"+ words.size());
+			// System.out.println("**"+fontHeight);
 			if (fontHeight * words.size() <= height)
 			{
+				// System.out.println("BREAKPOINT1: " +words.size());
 				break;// :D super
 			} else
 			{
@@ -68,23 +83,37 @@ public class Main
 				int myRowLength = 1 + Main.minTwoSize(words);
 				maxWord = myRowLength;
 
-				float smanjenje = fontHeight - (3 * (width / myRowLength) / 2);
+				float smanjenje = fontHeight
+						- (3.0f * (width / myRowLength) / 2.0f);
 
 				// ako nam fali manje od jednog merga onda cemo da smanjimo za
 
 				if (faliNam <= smanjenje)
 				{
 					fontHeight -= faliNam;
-					fontWidth = 2 * fontHeight / 3;
+					fontWidth = 2.0f * fontHeight / 3.0f;
 					break;
 				}
 
 				fontWidth = width / myRowLength;
-				fontHeight = 3 * fontWidth / 2;
+				fontHeight = 3.0f * fontWidth / 2.0f;
 
 			}
 
 		}
+		// int tempMax = 0;
+		// for(String str: words)
+		// {
+		// if(str.length()>tempMax){tempMax = str.length();}
+		// }
+
+		// if(fontHeight>height||tempMax*fontWidth>width){
+		// writer.println("Width:"+width+"  Height:"+height +
+		// " Size:"+fontHeight);}
+		// writer.println(fontHeight);
+		// writer.flush();
+		// }
+		// }
 
 		System.out.println(fontHeight);
 		return;
@@ -115,6 +144,10 @@ public class Main
 		}
 		while (true)
 		{
+			if (words.size() == 1)
+			{
+				return words;
+			}
 			List<String> initList = new ArrayList<String>();
 			boolean merged = false;
 			for (int i = 0; i < words.size() - 1; i++)
