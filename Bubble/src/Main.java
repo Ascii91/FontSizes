@@ -20,34 +20,36 @@ public class Main
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				System.in));
 
-		// BufferedReader readerFile = new BufferedReader(new FileReader(
-		// "file2.txt"));
-		//
-		//
-		// PrintWriter writer = new PrintWriter("output2.txt");
+//		BufferedReader readerFile = new BufferedReader(new FileReader(
+//				"file.txt"));
+
+		// PrintWriter writer = new PrintWriter("output.txt");
 		// sentence = readerFile.readLine();
-		// for(int x=1;x<1000;x++)
+		// for (int x = 1; x < 1000; x++)
 		// {
-		// System.out.println("x"+x);
-		// for(int y=1;y<1000;y++){
-		//
-		try
-		{
-			width = Float.parseFloat(reader.readLine());//
+		// System.out.println("x" + x);
+		// for (int y = 1; y < 1000; y++)
+		// {
 
-			height = Float.parseFloat(reader.readLine());//
+		String line = "";
+		line = reader.readLine();
 
-			sentence = reader.readLine();
-		} catch (Exception e)
-		{
-		}
+		width = Float.parseFloat(line.split(" ")[0]);
+
+		height = (Float.parseFloat(line.split(" ")[1]));//
+		line = reader.readLine();
+
+		sentence = line;
+
 		List<String> words = Arrays.asList(sentence.split(" "));
 
 		if (width == 0 || height == 0)
 		{
 			System.out.println(0);
-			return;
+
 		}
+		else
+		{
 
 		int maxWord = 0;
 		for (String word : words)
@@ -86,7 +88,8 @@ public class Main
 				float smanjenje = fontHeight
 						- (3.0f * (width / myRowLength) / 2.0f);
 
-				// ako nam fali manje od jednog merga onda cemo da smanjimo za
+				// ako nam fali manje od jednog merga onda cemo da
+				// smanjimo za
 
 				if (faliNam <= smanjenje)
 				{
@@ -101,22 +104,32 @@ public class Main
 			}
 
 		}
-		// int tempMax = 0;
-		// for(String str: words)
+		int tempMax = 0;
+		for (String str : words)
+		{
+			if (str.length() > tempMax)
+			{
+				tempMax = str.length();
+			}
+		}
+
+		// if (tempMax * fontWidth > width
+		// || fontHeight * words.size() - height > 0.0001)
 		// {
-		// if(str.length()>tempMax){tempMax = str.length();}
+		// System.out.println("****************************");
+		// writer.println("Width:" + width + "  Height:" + height
+		// + " Size:" + fontHeight + " Words size:"
+		// + words.size() + " Razlika:"
+		// + (fontHeight * words.size() - height));
 		// }
 
-		// if(fontHeight>height||tempMax*fontWidth>width){
-		// writer.println("Width:"+width+"  Height:"+height +
-		// " Size:"+fontHeight);}
 		// writer.println(fontHeight);
 		// writer.flush();
 		// }
 		// }
 
 		System.out.println(fontHeight);
-		return;
+		}
 	}
 
 	// nalazi sumu duzina dve najmanje susedne reci
