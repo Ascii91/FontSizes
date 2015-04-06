@@ -42,6 +42,7 @@ public class Main
                 // sentence = line;
 
                 List<String> words = Arrays.asList(sentence.split(" "));
+             //   Collections.reverse(words);
                 // System.out.println("SIZE" + words.size());
                 if (width == 0 || height == 0)
                 {
@@ -118,9 +119,9 @@ public class Main
                 
                     for (String word : words)
                      {
-                     writer.println(word);
+                  //   writer.println(word);
                      }
-                    writer.println("W:" + width + " H:" + height + " " + fontHeight);
+                    writer.println(fontHeight);
                     writer.flush();
                 }
             }
