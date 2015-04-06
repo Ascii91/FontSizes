@@ -1,205 +1,227 @@
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class Main
 {
 
-    public static void main(String[] args) throws java.lang.Exception
-    {
+	public static void main(String[] args) throws java.lang.Exception
+	{
 
-        float fontWidth = 0;
-        float fontHeight = 0;
-        float width = 0;
-        float height = 0;
-        String sentence = "";
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		float fontWidth = 0;
+		float fontHeight = 0;
+		float width = 0;
+		float height = 0;
+		String sentence = "";
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				System.in));
 
-        BufferedReader readerFile = new BufferedReader(new FileReader("file.txt"));
+		String line = "";
+		line = reader.readLine();
 
-        PrintWriter writer = new PrintWriter("output.txt");
-        sentence = readerFile.readLine();
-        for (float x = 1; x < 1000; x += 1)
-        {
-            System.out.println("x" + x);
-            for (float y = 1; y < 1000; y += 1)
-            {
+		width = Float.parseFloat(line.split(" ")[0]);
 
-                String line = "";
-                // line = reader.readLine();
+		height = (Float.parseFloat(line.split(" ")[1]));//
+		line = reader.readLine();
+		line = line.trim();
+		sentence = line;
 
-                width = x;// Float.parseFloat(line.split(" ")[0]);
+		List<String> words = Arrays.asList(sentence.split(" "));
 
-                height = y;// (Float.parseFloat(line.split(" ")[1]));//
-                // line = reader.readLine();
-                line = line.trim();
-                // sentence = line;
+		if (width == 0 || height == 0)
+		{
+			System.out.println(0);
 
-                List<String> words = Arrays.asList(sentence.split(" "));
-             //   Collections.reverse(words);
-                // System.out.println("SIZE" + words.size());
-                if (width == 0 || height == 0)
-                {
-                    System.out.println(0);
+		} else
+		{
 
-                }
-                else
-                {
+			// pronadjemo najduzu rec od svih reci
+			int maxWord = 0;
+			for (String word : words)
+			{
+				if (word.length() > maxWord)
+				{
+					maxWord = word.length();
+				}
+			}
 
-                    int maxWord = 0;
-                    for (String word : words)
-                    {
-                        if (word.length() > maxWord)
-                        {
-                            maxWord = word.length();
-                        }
-                    }
+			fontWidth = width / maxWord;
+			fontHeight = 3.0f * fontWidth / 2.0f; // desired font height
 
-                    fontWidth = width / maxWord;
-                    fontHeight = 3.0f * fontWidth / 2.0f; // desired font height
-                    // words = mergeWords(words, maxWord);
-                    while (true)
-                    {
-                        // System.out.println("Words.size"+ words.size());
-                        // System.out.println("BEFORE: " + words.size());
-                        words = mergeWords(words, maxWord);
-                        // System.out.println("After: " + words.size());
-                        // System.out.println("Words.size after"+ words.size());
-                        // System.out.println("**"+fontHeight);
-                        if (fontHeight * words.size() - height <= 0.0001 && fontWidth * maxWord - width < 0.0001)
-                        {
-                            // System.out.println("BREAKPOINT1: " +words.size());
-                            break;// :D super
-                        }
-                        else
-                        {
+			while (true)
+			{
+				if (fontHeight * words.size() <= height
+						&& maxWord * fontWidth <= width)
+				{
+					break;
+				}
+				// System.out.println("Before calculation");
+				words = makeCalculation(words, maxWord, width, height);
+				// System.out.println("After calculation");
+				for (String str : words)
+				{
+					if (str.length() > maxWord)
+					{
+						maxWord = str.length();
+					}
+				}
+			
 
-                            // mora se smanjiti font za koliko?
-                            // za malo samo ili za sledeci merge
+				fontWidth = width / maxWord;
+				fontHeight = fontWidth * (3.0f / 2.0f);
 
-                            float faliNam = (fontHeight * words.size() - height) / words.size();
+				if (fontHeight * words.size() <= height
+						&& maxWord * fontWidth <= width)
+				{
+					break;
+				} else
+				{
+					//
 
-                            int myRowLength = 1 + Main.minTwoSize(words);
+					fontHeight = height / words.size();
+					fontWidth = (2.0f / 3.0f) * fontHeight;
 
-                            float smanjenje = fontHeight - (3.0f * (width / myRowLength) / 2.0f);
+					break;
 
-                            // ako nam fali manje od jednog merga onda cemo da
-                            // smanjimo za
+				}
 
-                            if (faliNam <= smanjenje)
-                            {
-                                fontHeight -= faliNam;
-                                fontWidth = 2.0f * fontHeight / 3.0f;
+			}
+			System.out.println(fontHeight);
 
-                                break;
-                            }
+		}
+	}
 
-                            fontWidth = width / myRowLength;
-                            fontHeight = 3.0f * fontWidth / 2.0f;
-                            maxWord = myRowLength;
-                        }
+	private static List<String> makeCalculation(List<String> words,
+			int maxWord, float width, float height)
+	{
+		int currentMaxRow = maxWord;
+		while (true)
+		{
 
-                    }
+			
+			List<String> tempList = sabij(words, currentMaxRow);
+			// proveri je li bolje sabijanje ili umanjenje;
 
-                    
-                    if(width == 4 && height ==1 ){System.out.println(""+fontHeight+"*"+words.size());
-                    for(String str:words){System.out.println(str);}
-                    
-                    }
-                //    if(fontHeight*words.size()*1.0f-height>0.0001){System.out.println("*****************");}
-                    // " MaWOrd:"+ maxWord +" WORDSIZE "+words.size());}
-                    // writer.println("W:" + width + " " + "H:" + height + " FH:" + fontHeight +" FW: "+fontWidth);
-                    // +" WORDSIZE "+words.size());
-                
-                    for (String word : words)
-                     {
-                  //   writer.println(word);
-                     }
-                    writer.println(fontHeight);
-                    writer.flush();
-                }
-            }
+			words = tempList;
 
-            // System.out.println(fontHeight);
-        }
-    }
+			
+			int tempMaxRow = -1;
+			for (String s : words)
+			{
+				if (s.length() > tempMaxRow)
+				{
+					tempMaxRow = s.length();
+				}
+			}
 
-    // nalazi sumu duzina dve najmanje susedne reci
-    public static int minTwoSize(List<String> words)
-    {
-        int minSum = 10001;
+			float tempWidth = width / tempMaxRow;
+			float tempHeight = tempWidth * (3.0f / 2.0f);
 
-        for (int i = 0; i < words.size() - 1; i++)
-        {
-            if (words.get(i).length() + words.get(i + 1).length() < minSum)
-            {
-                minSum = words.get(i).length() + words.get(i + 1).length();
-            }
-        }
+			// izracunamo visinu i sirinu
+			// ako su oboje upasali break;
 
-        return minSum;
-    }
+			if (tempHeight * words.size() <= height)
+			{
+				break;
+			}
 
-    // samo merguje
-    public static List<String> mergeWords(List<String> words, int initMax)
-    {
-        if (words.size() == 1)
-        {
-            return words;
-        }
-        while (true)
-        {
-            if (words.size() == 1)
-            {
-                return words;
-            }
-            List<String> initList = new ArrayList<String>();
-            boolean merged = false;
-            for (int i = 0; i < words.size() - 1; i++)
-            {
-                String word1 = words.get(i);
-                String word2 = words.get(i + 1);
-                String mergedWords = word1 + " " + word2;
-                if (mergedWords.length() > initMax)
-                {
+			// ako nisu povecavamo current maxRow za minimum pa nazad na
+			// sabijanje
 
-                    initList.add(word1);
-                    if (i == words.size() - 2)
-                    {
-                        initList.add(word2);
-                    }
+			int minimum = 100000;
+			for (int i = 0; i < words.size() - 1; i++)
+			{
+				String word1 = words.get(i);
+				String word2 = words.get(i + 1);
 
-                }
-                else
-                {
-                    merged = true;
-                    initList.add(mergedWords);
-                    i++;
-                    if (i == words.size() - 2)
-                    {
-                        initList.add(words.get(words.size() - 1));
-                    }
+				if (word1.length() + word2.split(" ")[0].length() + 1 < minimum)
+				{
+					minimum = word1.length() + word2.split(" ")[0].length() + 1;
+				}
 
-                }
+			}
+	
 
-            }
+			currentMaxRow = minimum;
+			if ((width / minimum) * (3.0f / 2.0f) < height / words.size())
+			{
+				break;
+			}
+			//
 
-            words = initList;
-            if (!merged)
-            {
-                break;
-            }
-        }
+		}
 
-        return words;
-    }
+		return words;
+	}
 
-  
+	private static List<String> sabij(List<String> words, int currentMaxRow)
+	{
+		if (words.size() == 1)
+		{
+			return words;
+		}
+		while (true)
+		{
+			List<String> tempList = new ArrayList<String>();
+			if (words.size() == 1)
+			{
+				return words;
+			}
+
+			boolean transaction = false;
+			for (int i = 0; i < words.size() - 1; i++)
+			{
+				String word1 = words.get(i);
+				String word2 = words.get(i + 1);
+				String mergedWord = word1 + " " + word2.split(" ")[0];
+				// System.out.println("CurrentMax"+ currentMaxRow);
+				if (word1.length() + word2.split(" ")[0].length() + 1 <= currentMaxRow)
+				{
+					transaction = true;
+					// word1 += " " + word2.split(" ")[0];
+					int separator = word2.indexOf(" ");
+					if (separator == -1)
+					{ // otisla je cela rec
+						// System.out.println("GRANA1 " +mergedWord);
+						tempList.add(mergedWord);
+					} else
+					{
+					
+						word2 = word2.substring(separator + 1);
+						tempList.add(mergedWord);
+						tempList.add(word2);
+
+					}
+					i++;
+					if (i == words.size() - 2)
+					{
+						tempList.add(words.get(words.size() - 1));
+						break;
+					}
+
+				} else
+				{
+					tempList.add(word1);
+					if (i == words.size() - 2)
+					{
+						tempList.add(words.get(words.size() - 1));
+						break;
+					}
+
+				}
+
+			}
+
+			words = tempList;
+			if (!transaction)
+			{
+				break;
+			}
+		}
+
+		return words;
+	}
 
 }
